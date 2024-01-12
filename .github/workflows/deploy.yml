@@ -1,4 +1,4 @@
-name: Deploy Flask and Kafka to AWS EC2
+name: Deploy Flask to AWS EC2
 
 on:
   push:

@@ -1,13 +1,7 @@
-version: "3.8"  # Updated for better network support
-
+version: "3.8"
 services:
   flask-app:
     build: .
-    container_name: flask-app
     ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=development
-    volumes:
-       - .:/usr/src/app
-       - /usr/src/app/__pycache__
+      - "80:80"
+    command: gunicorn -w 4 -b 0.0.0.0:80 app:app

@@ -4,3 +4,4 @@ flask
 spacy
 requests
 langdetect
+gunicorn

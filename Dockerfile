@@ -15,13 +15,13 @@ RUN python -m spacy download en_core_web_sm
 RUN python -m spacy download ru_core_news_sm
 
 # Make port 5000 available to the world outside this container
-EXPOSE 5000
+EXPOSE 80
 
 # Copy .env file into the container (if you prefer keeping it separate)
 #COPY .venv .venv
 
 # At the end of your Dockerfile
-#CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "app:app"]
 
 # Run app.py when the container launches
-CMD ["python", "./app.py", "0.0.0.0:5000"]
+#CMD ["python", "./app.py", "0.0.0.0:5000"]
