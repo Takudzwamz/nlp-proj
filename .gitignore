@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment
+.venv
+venv/
+.venv.*
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Dependency directories
+lib/
+lib64/
+bin/
+include/

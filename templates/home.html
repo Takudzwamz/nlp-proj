@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Entity Linker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            background: #fff;
+            padding: 50px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #c6c8da;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            position: relative; /* Add this line */
+        }
+
+        li .copy-button {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 20px; /* Add this line */
+            margin-right: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        .copy-button {
+            cursor: pointer;
+            color: #007bff;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container  mt-5 mb-5">
+        <h1>Entity Linking with WikiData</h1>
+        <h2>Project by Takudzwa Mupanesure</h2>
+        <a href="">Github Link to project</a>
+        <p>Entity linking is the task of linking entity mentions in text to their corresponding entries in a knowledge base. In this demo, we use <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">WikiData</a> as the knowledge base.</p>
+        <form method="post">
+            <input type="text" name="sentence" placeholder="Enter a sentence" required>
+            <input type="submit" value="Link Entities">
+        </form>
+        {% if linked_entities_info %}
+        <h2>Results for "{{ sentence }}":</h2>
+        <ul>
+            {% for entity in linked_entities_info %}
+            <li>
+                <strong>Term:</strong> {{ entity.term }}<br>
+                <strong>Label:</strong> {{ entity.label }}<br>
+                <strong>Description:</strong> {{ entity.description }}<br>
+                {% if entity.url %}
+                <strong>URL:</strong> <a href="{{ entity.url }}" target="_blank">{{ entity.url }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h2>Example Sentences for Testing:</h2>
+    <ul>
+        <li id="sentence1">Фёдор Достоевский — известный русский писатель.<span class="copy-button"
+                onclick="copyText('sentence1')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence2">Компания Яндекс была основана в 1997 году.<span class="copy-button"
+                onclick="copyText('sentence2')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence3">Большой театр находится в Москве.<span class="copy-button"
+                onclick="copyText('sentence3')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence4">Владимир Путин является президентом России.<span class="copy-button"
+                onclick="copyText('sentence4')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence5">Ливерпуль выиграл сегодняшний матч.<span class="copy-button"
+                onclick="copyText('sentence5')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence6">Анна Каренина — знаменитый роман Льва Толстого.<span class="copy-button"
+                onclick="copyText('sentence6')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence7">Санкт-Петербург был основан Петром Великим.<span class="copy-button"
+                onclick="copyText('sentence7')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence8">Станция метро "Балтийская" в Санкт-Петербурге, Россия, является одной из самых красивых в мире.<span class="copy-button"
+                onclick="copyText('sentence8')"><i class="fa-regular fa-copy"></i></span></li>
+        
+        <li id="sentence11">Российская академия наук занимается научными исследованиями.<span class="copy-button"
+                onclick="copyText('sentence11')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence12">Исаакиевский собор — пример архитектуры неоклассицизма.<span class="copy-button"
+                onclick="copyText('sentence12')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence13">Роскосмос ведёт космические программы России.<span class="copy-button"
+                onclick="copyText('sentence13')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence14">Тургенев описал русскую интеллигенцию в своих произведениях.<span class="copy-button"
+                onclick="copyText('sentence14')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence15">Матч между Спартак и Зенит вызвал большой интерес.<span class="copy-button"
+                onclick="copyText('sentence15')"><i class="fa-regular fa-copy"></i></span></li>
+        
+        <li id="sentence17">Московский государственный университет — один из старейших в России.<span class="copy-button"
+                onclick="copyText('sentence17')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence18">Красная площадь является символом Москвы.<span class="copy-button"
+                onclick="copyText('sentence18')"><i class="fa-regular fa-copy"></i></span></li>
+        <li id="sentence19">Александр Невский был русским полководцем и героем.<span class="copy-button"
+                onclick="copyText('sentence19')"><i class="fa-regular fa-copy"></i></span></li>
+    </ul>
+
+    </div>
+
+    <script>
+        function copyText(elementId) {
+            var text = document.getElementById(elementId).innerText.replace('Copy', '').trim();
+            navigator.clipboard.writeText(text).then(function () {
+                // Show a temporary message
+                showCopyFeedback(elementId, 'Copied!');
+            }).catch(function (err) {
+                // Show error message
+                showCopyFeedback(elementId, 'Error: ' + err, true);
+            });
+        }
+
+        function showCopyFeedback(elementId, message, isError = false) {
+            var feedbackElement = document.createElement('span');
+            feedbackElement.innerText = message;
+            feedbackElement.style.color = isError ? 'red' : 'green';
+            feedbackElement.style.marginLeft = '10px';
+
+            var element = document.getElementById(elementId);
+            element.appendChild(feedbackElement);
+
+            // Remove the message after 2 seconds
+            setTimeout(function () {
+                element.removeChild(feedbackElement);
+            }, 2000);
+        }
+    </script>
+
+</body>
+
+</html>
