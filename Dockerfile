@@ -21,7 +21,7 @@ EXPOSE 80
 #COPY .venv .venv
 
 # At the end of your Dockerfile
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "app:app"]
+#CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "app:app"]
 
 # Run app.py when the container launches
-#CMD ["python", "./app.py", "0.0.0.0:5000"]
+CMD ["python", "./app.py", "0.0.0.0:80"]
